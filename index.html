@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harputoğlu Orman Ürünleri | 1968'den Günümüze</title>
+    <title>Harputoğlu Orman Ürünleri | Dijital Deneyim</title>
     
     <!-- Google Fonts & FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- GSAP & ScrollTrigger Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
     <style>
         :root {
-            --bg-dark: #070a08;
-            --card-bg: rgba(18, 26, 21, 0.65);
+            --bg-dark: #050806;
+            --card-bg: rgba(15, 23, 18, 0.55);
             --accent-gold: #d4af37;
+            --accent-gold-glow: rgba(212, 175, 55, 0.4);
             --accent-green: #25d366;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
@@ -23,7 +28,22 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
         body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
 
-        /* Glass Header */
+        /* Glowing Custom Cursor Halo */
+        .cursor-glow {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--accent-gold-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            mix-blend-mode: screen;
+            opacity: 0.25;
+            transition: transform 0.1s ease-out, opacity 0.3s;
+        }
+
+        /* Apple Glass Header */
         header {
             position: fixed;
             top: 20px;
@@ -31,27 +51,27 @@
             transform: translateX(-50%);
             width: 90%;
             max-width: 1200px;
-            background: rgba(7, 10, 8, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(5, 8, 6, 0.65);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            padding: 12px 35px;
+            padding: 14px 35px;
             border-radius: 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
         .logo-box img { 
-            height: 42px; 
+            height: 44px; 
             object-fit: contain; 
             filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .logo-box img:hover { transform: scale(1.03); }
+        .logo-box img:hover { transform: scale(1.08) rotate(-1deg); }
 
         .nav-links a {
             color: var(--text-main);
@@ -61,8 +81,19 @@
             font-weight: 600;
             transition: all 0.3s;
             letter-spacing: 0.5px;
+            position: relative;
         }
 
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0; width: 0; height: 2px;
+            background: var(--accent-gold);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after { width: 100%; }
         .nav-links a:hover { color: var(--accent-gold); }
 
         /* Hero / Sinematik Giriş */
@@ -80,26 +111,20 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1;
-            overflow: hidden;
         }
 
         .hero-bg-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: brightness(0.35) contrast(1.15);
-            animation: cinematicZoom 18s infinite alternate ease-in-out;
-        }
-
-        @keyframes cinematicZoom {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.18); }
+            filter: brightness(0.3) contrast(1.2);
+            will-change: transform;
         }
 
         .hero-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(7,10,8,0.2) 0%, rgba(7,10,8,0.95) 85%);
+            background: radial-gradient(circle at center, rgba(5,8,6,0.3) 0%, rgba(5,8,6,0.95) 90%);
             z-index: 2;
         }
 
@@ -107,40 +132,41 @@
             position: relative;
             z-index: 3;
             text-align: center;
-            max-width: 950px;
+            max-width: 1000px;
             padding: 0 20px;
         }
 
         .badge {
             display: inline-block;
-            padding: 8px 22px;
-            background: rgba(212, 175, 55, 0.12);
+            padding: 8px 24px;
+            background: rgba(212, 175, 55, 0.1);
             border: 1px solid var(--accent-gold);
             color: var(--accent-gold);
             border-radius: 30px;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
             margin-bottom: 25px;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
         }
 
         .hero-content h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 4.2rem;
+            font-size: 4.5rem;
             font-weight: 700;
-            line-height: 1.15;
-            margin-bottom: 20px;
-            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            line-height: 1.1;
+            margin-bottom: 25px;
+            background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .hero-content p {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             color: var(--text-muted);
-            margin-bottom: 35px;
+            margin-bottom: 40px;
             font-weight: 300;
             line-height: 1.6;
         }
@@ -148,70 +174,103 @@
         .btn-glow {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 18px 40px;
-            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            gap: 14px;
+            padding: 20px 45px;
+            background: linear-gradient(135deg, #25d366 0%, #059669 100%);
             color: white;
             text-decoration: none;
             font-weight: 700;
             border-radius: 50px;
-            box-shadow: 0 10px 35px rgba(37, 211, 102, 0.35);
+            box-shadow: 0 10px 40px rgba(37, 211, 102, 0.4);
             transition: all 0.4s ease;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
         }
 
         .btn-glow:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 18px 45px rgba(37, 211, 102, 0.55);
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(37, 211, 102, 0.6);
+        }
+
+        /* Say Sayaç (Stats) Bölümü */
+        .stats-section {
+            padding: 60px 5%;
+            background: rgba(255, 255, 255, 0.015);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         /* Vitrin / Ürünler */
         .showcase-section {
-            padding: 120px 5%;
+            padding: 140px 5%;
             max-width: 1400px;
             margin: 0 auto;
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 90px;
         }
 
         .section-header h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.2rem;
+            font-size: 3.5rem;
             color: #fff;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .section-header p {
             color: var(--text-muted);
-            font-size: 1.15rem;
+            font-size: 1.2rem;
         }
 
         .showcase-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 40px;
+            perspective: 1000px;
         }
 
         .product-card {
             background: var(--card-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 28px;
+            border-radius: 30px;
             overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(12px);
+            transition: transform 0.2s ease-out, border-color 0.4s, box-shadow 0.4s;
+            backdrop-filter: blur(16px);
+            transform-style: preserve-3d;
         }
 
         .product-card:hover {
-            transform: translateY(-12px);
-            border-color: rgba(212, 175, 55, 0.45);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.8), 0 0 30px rgba(212, 175, 55, 0.15);
         }
 
         .card-img-box {
-            height: 300px;
+            height: 320px;
             width: 100%;
             overflow: hidden;
             position: relative;
@@ -225,81 +284,83 @@
         }
 
         .product-card:hover .card-img-box img {
-            transform: scale(1.1);
+            transform: scale(1.12);
         }
 
         .card-body {
-            padding: 35px;
+            padding: 38px;
         }
 
         .card-tag {
             color: var(--accent-gold);
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 700;
-            letter-spacing: 1.8px;
+            letter-spacing: 2px;
             text-transform: uppercase;
             margin-bottom: 12px;
             display: block;
         }
 
         .card-body h3 {
-            font-size: 1.7rem;
+            font-size: 1.8rem;
             color: #fff;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
             font-weight: 700;
         }
 
         .card-body p {
             color: var(--text-muted);
-            font-size: 0.98rem;
-            line-height: 1.7;
+            font-size: 1rem;
+            line-height: 1.75;
         }
 
-        /* Bayiliklerimiz / Markalar Bölümü */
-        .brands-section {
-            padding: 80px 5%;
-            background: rgba(12, 18, 14, 0.6);
+        /* Continuous Infinite Marquee Brands Band */
+        .marquee-section {
+            padding: 80px 0;
+            overflow: hidden;
+            background: rgba(10, 15, 12, 0.8);
             border-top: 1px solid var(--glass-border);
             border-bottom: 1px solid var(--glass-border);
+            position: relative;
         }
 
-        .brands-container {
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        .brands-grid {
+        .marquee-track {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-top: 40px;
+            gap: 20px;
+            width: max-content;
+            animation: marquee 35s linear infinite;
+        }
+
+        .marquee-track:hover { animation-play-state: paused; }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         .brand-pill {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--glass-border);
-            padding: 12px 24px;
-            border-radius: 40px;
-            color: #e2e8f0;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            padding: 14px 28px;
+            border-radius: 50px;
+            color: #f1f5f9;
+            font-size: 1rem;
+            font-weight: 700;
+            white-space: nowrap;
+            transition: all 0.3s;
         }
 
         .brand-pill:hover {
             border-color: var(--accent-gold);
             color: var(--accent-gold);
-            transform: translateY(-3px);
-            background: rgba(212, 175, 55, 0.08);
+            background: rgba(212, 175, 55, 0.1);
+            transform: scale(1.05);
         }
 
         /* Hakkımızda / Aile Fotoğrafı */
         .about-section {
-            background: linear-gradient(180deg, var(--bg-dark) 0%, #0d1410 100%);
-            padding: 130px 5%;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, #090f0b 100%);
+            padding: 150px 5%;
             border-top: 1px solid var(--glass-border);
         }
 
@@ -308,37 +369,37 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 70px;
+            gap: 80px;
             align-items: center;
         }
 
         .about-img-frame {
             position: relative;
-            border-radius: 28px;
+            border-radius: 32px;
             padding: 12px;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.45), rgba(255,255,255,0.03));
-            box-shadow: 0 35px 70px rgba(0,0,0,0.8);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.5), rgba(255,255,255,0.02));
+            box-shadow: 0 40px 90px rgba(0,0,0,0.9);
         }
 
         .about-img-frame img {
             width: 100%;
-            border-radius: 20px;
+            border-radius: 22px;
             display: block;
             object-fit: cover;
         }
 
         .about-text h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+            font-size: 3.2rem;
             color: var(--accent-gold);
-            margin-bottom: 25px;
+            margin-bottom: 28px;
         }
 
         .about-text p {
             color: var(--text-muted);
-            font-size: 1.02rem;
-            line-height: 1.85;
-            margin-bottom: 20px;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            margin-bottom: 22px;
             text-align: justify;
         }
 
@@ -346,20 +407,20 @@
 
         /* Şubeler & İletişim */
         .branches-section {
-            padding: 110px 5%;
+            padding: 130px 5%;
             max-width: 1300px;
             margin: 0 auto;
         }
 
         .footer-logo-box {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         .footer-logo-box img {
-            height: 55px;
+            height: 60px;
             object-fit: contain;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+            filter: drop-shadow(0 4px 15px rgba(0,0,0,0.7));
         }
 
         .branches-grid {
@@ -369,65 +430,70 @@
         }
 
         .branch-card {
-            background: rgba(18, 26, 21, 0.85);
+            background: rgba(15, 23, 18, 0.8);
             border: 1px solid var(--glass-border);
-            border-radius: 28px;
-            padding: 45px;
+            border-radius: 30px;
+            padding: 50px;
             position: relative;
-            transition: border-color 0.3s;
+            transition: all 0.4s ease;
         }
 
         .branch-card:hover {
-            border-color: rgba(212, 175, 55, 0.3);
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-8px);
         }
 
         .branch-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
+            top: 0; left: 0; width: 5px; height: 100%;
             background: var(--accent-gold);
-            border-radius: 28px 0 0 28px;
+            border-radius: 30px 0 0 30px;
         }
 
         .branch-card h3 {
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             color: #fff;
-            margin-bottom: 22px;
+            margin-bottom: 25px;
             font-weight: 700;
         }
 
         .info-row {
             display: flex;
-            gap: 15px;
-            margin-bottom: 18px;
+            gap: 18px;
+            margin-bottom: 20px;
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 1.05rem;
         }
 
         .info-row i {
             color: var(--accent-gold);
-            font-size: 1.2rem;
-            margin-top: 3px;
+            font-size: 1.3rem;
+            margin-top: 2px;
         }
 
         footer {
             text-align: center;
-            padding: 45px;
+            padding: 50px;
             border-top: 1px solid var(--glass-border);
             color: var(--text-muted);
-            font-size: 0.9rem;
-            background: #040605;
+            font-size: 0.95rem;
+            background: #030504;
         }
 
         @media (max-width: 900px) {
-            .hero-content h1 { font-size: 2.6rem; }
+            .hero-content h1 { font-size: 2.8rem; }
             .about-container { grid-template-columns: 1fr; }
             .showcase-grid { grid-template-columns: 1fr; }
-            header { width: 95%; padding: 10px 20px; }
+            header { width: 95%; padding: 12px 20px; }
+            .cursor-glow { display: none; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Glowing Custom Cursor Halo -->
+    <div class="cursor-glow" id="cursorGlow"></div>
 
     <!-- Header -->
     <header>
@@ -442,14 +508,14 @@
         </div>
     </header>
 
-    <!-- Hero / Dükkan Giriş Görseli -->
+    <!-- Hero / Parallax Entrance -->
     <div class="hero-section">
         <div class="hero-bg-wrapper">
-            <img src="dukkan-giris.jpg" class="hero-bg-img" alt="Harputoğlu Dükkan Girişi">
+            <img src="dukkan-giris.jpg" class="hero-bg-img" id="heroBg" alt="Harputoğlu Dükkan Girişi">
         </div>
         <div class="hero-overlay"></div>
         
-        <div class="hero-content">
+        <div class="hero-content" id="heroContent">
             <div class="badge">1968'den Günümüze Yarım Asırlık Güven</div>
             <h1>Ahşabın Sanata,<br>Ticaretin Güvene Dönüştüğü Yer</h1>
             <p>Sunta, MDF, Ankastre Setler, Mobilya Aksesuarları, Hırdavat Grubu ve Precision Panel Ebatlama ile PVC Kenar Bantlama Hizmetlerinde Yalova'da Sektörün Lider Temsilcisi.</p>
@@ -458,6 +524,28 @@
             </a>
         </div>
     </div>
+
+    <!-- Live Stats Count-up Bar -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3 class="counter" data-target="1968">0</h3>
+                <p>Kuruluş Yılı</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="counter" data-target="58">0</h3>
+                <p>Yıllık Tecrübe</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="counter" data-target="30">0</h3>
+                <p>+ Dünya Markası Bayilik</p>
+            </div>
+            <div class="stat-item">
+                <h3 class="counter" data-target="100">0</h3>
+                <p>% Müşteri Memnuniyeti</p>
+            </div>
+        </div>
+    </section>
 
     <!-- Ürün & Makine Parkuru Vitrini -->
     <section class="showcase-section" id="urunler">
@@ -468,7 +556,6 @@
 
         <div class="showcase-grid">
             
-            <!-- Sunta & MDF -->
             <div class="product-card">
                 <div class="card-img-box">
                     <img src="sunta-mdf.jpg" alt="Sunta MDF Paletleri">
@@ -480,7 +567,6 @@
                 </div>
             </div>
 
-            <!-- Ebatlama & PVC -->
             <div class="product-card">
                 <div class="card-img-box">
                     <img src="ebatlama.jpg" alt="Panel Ebatlama ve PVC Kenar Bantlama">
@@ -492,7 +578,6 @@
                 </div>
             </div>
 
-            <!-- Hırdavat & Mobilya Aksesuarları -->
             <div class="product-card">
                 <div class="card-img-box">
                     <img src="evatrav-kulp.jpg" alt="Hırdavat ve Mobilya Aksesuarları">
@@ -504,7 +589,6 @@
                 </div>
             </div>
 
-            <!-- Ankastre -->
             <div class="product-card">
                 <div class="card-img-box">
                     <img src="ankastre.jpg" alt="Ankastre Mutfak Ürünleri">
@@ -519,46 +603,47 @@
         </div>
     </section>
 
-    <!-- Bayiliklerimiz / Çözüm Ortakları -->
-    <section class="brands-section" id="bayilikler">
-        <div class="brands-container">
-            <div class="section-header" style="margin-bottom: 40px;">
-                <h2>Bayiliklerimiz & Çözüm Ortaklarımız</h2>
-                <p>Güvenilir kalitesiyle sektöre yön veren dünya ve Türkiye markalarının yetkili bayisi ve distribütörüyüz.</p>
-            </div>
+    <!-- Infinite Marquee Brands Section -->
+    <section class="marquee-section" id="bayilikler">
+        <div class="section-header" style="margin-bottom: 40px;">
+            <h2>Bayiliklerimiz & Çözüm Ortaklarımız</h2>
+            <p>Güvenilir kalitesiyle sektöre yön veren markaların yetkili temsilcisiyiz.</p>
+        </div>
+        
+        <div class="marquee-track">
+            <!-- Set 1 -->
+            <div class="brand-pill">ÇAMSAN ORDU</div>
+            <div class="brand-pill">TEKA</div>
+            <div class="brand-pill">BLUM</div>
+            <div class="brand-pill">SAMET</div>
+            <div class="brand-pill">CEBİ</div>
+            <div class="brand-pill">ROMA</div>
+            <div class="brand-pill">GİZİR</div>
+            <div class="brand-pill">TECE</div>
+            <div class="brand-pill">STARAX</div>
+            <div class="brand-pill">SOFUOĞLU</div>
+            <div class="brand-pill">TEVERPAN</div>
+            <div class="brand-pill">KALE KİLİT</div>
+            <div class="brand-pill">E.C.A.</div>
+            <div class="brand-pill">MEPA</div>
+            <div class="brand-pill">MESAN</div>
             
-            <div class="brands-grid">
-                <div class="brand-pill">ÇAMSAN ORDU</div>
-                <div class="brand-pill">TEKA</div>
-                <div class="brand-pill">BLUM</div>
-                <div class="brand-pill">SAMET</div>
-                <div class="brand-pill">CEBİ</div>
-                <div class="brand-pill">ROMA</div>
-                <div class="brand-pill">GİZİR</div>
-                <div class="brand-pill">TECE</div>
-                <div class="brand-pill">STARAX</div>
-                <div class="brand-pill">SOFUOĞLU</div>
-                <div class="brand-pill">TEVERPAN</div>
-                <div class="brand-pill">KALE KİLİT</div>
-                <div class="brand-pill">E.C.A.</div>
-                <div class="brand-pill">MEPA</div>
-                <div class="brand-pill">MESAN</div>
-                <div class="brand-pill">SARAÇ TEKNİK</div>
-                <div class="brand-pill">TOMURCUK PORSELEN</div>
-                <div class="brand-pill">TEMPO AKSESUAR</div>
-                <div class="brand-pill">SANOVİT</div>
-                <div class="brand-pill">PİMADOR</div>
-                <div class="brand-pill">METALİ</div>
-                <div class="brand-pill">MAD WOLF</div>
-                <div class="brand-pill">KADOMA</div>
-                <div class="brand-pill">HİSAR</div>
-                <div class="brand-pill">EROĞLU</div>
-                <div class="brand-pill">DKR DEKOR BANYO</div>
-                <div class="brand-pill">ÇAĞ ORMAN ÜRÜNLERİ</div>
-                <div class="brand-pill">BURAK CASTERS</div>
-                <div class="brand-pill">BAPAS</div>
-                <div class="brand-pill">AYTUĞ</div>
-            </div>
+            <!-- Set 2 (Duplicate for Seamless Infinite Loop) -->
+            <div class="brand-pill">ÇAMSAN ORDU</div>
+            <div class="brand-pill">TEKA</div>
+            <div class="brand-pill">BLUM</div>
+            <div class="brand-pill">SAMET</div>
+            <div class="brand-pill">CEBİ</div>
+            <div class="brand-pill">ROMA</div>
+            <div class="brand-pill">GİZİR</div>
+            <div class="brand-pill">TECE</div>
+            <div class="brand-pill">STARAX</div>
+            <div class="brand-pill">SOFUOĞLU</div>
+            <div class="brand-pill">TEVERPAN</div>
+            <div class="brand-pill">KALE KİLİT</div>
+            <div class="brand-pill">E.C.A.</div>
+            <div class="brand-pill">MEPA</div>
+            <div class="brand-pill">MESAN</div>
         </div>
     </section>
 
@@ -581,7 +666,6 @@
     <!-- Şubelerimiz & İletişim -->
     <section class="branches-section" id="subeler">
         
-        <!-- İletişim Üstü Logo -->
         <div class="footer-logo-box">
             <img src="logo.svg" alt="Harputoğlu Logo" onerror="this.src='https://harputoglu.com/wp-content/uploads/2021/04/harputoglu-logo.png'">
         </div>
@@ -591,7 +675,6 @@
         </div>
         <div class="branches-grid">
             
-            <!-- Merkez Bayi -->
             <div class="branch-card">
                 <h3>Merkez Bayimiz</h3>
                 <div class="info-row">
@@ -608,7 +691,6 @@
                 </div>
             </div>
 
-            <!-- Sanayi Bayi -->
             <div class="branch-card">
                 <h3>Sanayi Bayimiz</h3>
                 <div class="info-row">
@@ -633,5 +715,97 @@
         <p>&copy; 2026 Harputoğlu Orman Ürünleri Ltd. Şti. Tüm Hakları Saklıdır.</p>
     </footer>
 
+    <!-- Interactive Animation Scripts -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Custom Cursor Movement
+        const cursor = document.getElementById('cursorGlow');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Hero Parallax Animation
+        gsap.to('#heroBg', {
+            scrollTrigger: {
+                trigger: '.hero-section',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            },
+            scale: 1.35,
+            y: 100
+        });
+
+        gsap.to('#heroContent', {
+            scrollTrigger: {
+                trigger: '.hero-section',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            },
+            opacity: 0,
+            y: -60
+        });
+
+        // Card Fade In Animations on Scroll
+        gsap.utils.toArray('.product-card, .branch-card, .about-container').forEach(el => {
+            gsap.from(el, {
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+        });
+
+        // 3D Card Tilt Effect on Hover
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                card.style.transform = `rotateY(${x / 15}deg) rotateX(${-y / 15}deg) translateY(-10px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateY(0deg) rotateX(0deg) translateY(0px)';
+            });
+        });
+
+        // Live Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        let counterTriggered = false;
+
+        ScrollTrigger.create({
+            trigger: '.stats-section',
+            start: 'top 80%',
+            onEnter: () => {
+                if (!counterTriggered) {
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        let count = 0;
+                        const speed = target / 50;
+                        const updateCount = () => {
+                            count += speed;
+                            if (count < target) {
+                                counter.innerText = Math.ceil(count);
+                                setTimeout(updateCount, 30);
+                            } else {
+                                counter.innerText = target;
+                            }
+                        };
+                        updateCount();
+                    });
+                    counterTriggered = true;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
