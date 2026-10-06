@@ -255,6 +255,47 @@
             line-height: 1.7;
         }
 
+        /* Bayiliklerimiz / Markalar Bölümü */
+        .brands-section {
+            padding: 80px 5%;
+            background: rgba(12, 18, 14, 0.6);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .brands-container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .brands-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .brand-pill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            padding: 12px 24px;
+            border-radius: 40px;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand-pill:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-3px);
+            background: rgba(212, 175, 55, 0.08);
+        }
+
         /* Hakkımızda / Aile Fotoğrafı */
         .about-section {
             background: linear-gradient(180deg, var(--bg-dark) 0%, #0d1410 100%);
@@ -308,6 +349,17 @@
             padding: 110px 5%;
             max-width: 1300px;
             margin: 0 auto;
+        }
+
+        .footer-logo-box {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo-box img {
+            height: 55px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
         }
 
         .branches-grid {
@@ -384,6 +436,7 @@
         </div>
         <div class="nav-links">
             <a href="#urunler">Ürünler & Parkur</a>
+            <a href="#bayilikler">Bayiliklerimiz</a>
             <a href="#hakkimizda">Hakkımızda</a>
             <a href="#subeler">İletişim</a>
         </div>
@@ -399,8 +452,8 @@
         <div class="hero-content">
             <div class="badge">1968'den Günümüze Yarım Asırlık Güven</div>
             <h1>Ahşabın Sanata,<br>Ticaretin Güvene Dönüştüğü Yer</h1>
-            <p>Sunta, MDF, Ankastre Setler, Evatrav & Hırdavat Grubu ve Precision Panel Ebatlama Hizmetlerinde Yalova'da Sektörün Lider Temsilcisi.</p>
-            <a href="https://wa.me/905308346177" target="_blank" class="btn-glow">
+            <p>Sunta, MDF, Ankastre Setler, Mobilya Aksesuarları, Hırdavat Grubu ve Precision Panel Ebatlama ile PVC Kenar Bantlama Hizmetlerinde Yalova'da Sektörün Lider Temsilcisi.</p>
+            <a href="https://wa.me/905308346177?text=Merhaba,%20ürünleriniz%20ve%20ebatlama/PVC%20hizmetleriniz%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="btn-glow">
                 <i class="fab fa-whatsapp"></i> WhatsApp Hizmet Hattı
             </a>
         </div>
@@ -427,27 +480,27 @@
                 </div>
             </div>
 
-            <!-- Ebatlama / Gabbiani -->
+            <!-- Ebatlama & PVC -->
             <div class="product-card">
                 <div class="card-img-box">
-                    <img src="ebatlama.jpg" alt="Gabbiani Panel Ebatlama Makinesi">
+                    <img src="ebatlama.jpg" alt="Panel Ebatlama ve PVC Kenar Bantlama">
                 </div>
                 <div class="card-body">
-                    <span class="card-tag">Hassas Kesim Parkuru</span>
-                    <h3>Panel Ebatlama & PVC İşleme</h3>
-                    <p>Gabbiani ebatlama ve PVC kenar bantlama makinelerimiz ile projelerinize milimetrik, sıfır hatayla kesim hizmeti sağlama olanağı.</p>
+                    <span class="card-tag">Hassas İşleme Parkuru</span>
+                    <h3>Panel Ebatlama & PVC Kenar Bantlama</h3>
+                    <p>Yüksek teknolojili hassas ebatlama ve PVC kenar bantlama makinelerimiz ile projelerinize milimetrik, sıfır hatayla kesim ve bantlama hizmeti.</p>
                 </div>
             </div>
 
-            <!-- Evatrav / Hırdavat -->
+            <!-- Hırdavat & Mobilya Aksesuarları -->
             <div class="product-card">
                 <div class="card-img-box">
-                    <img src="evatrav-kulp.jpg" alt="Evatrav Hırdavat ve Kulp Grubu">
+                    <img src="evatrav-kulp.jpg" alt="Hırdavat ve Mobilya Aksesuarları">
                 </div>
                 <div class="card-body">
                     <span class="card-tag">Mobilya Aksesuarı</span>
-                    <h3>EVATRAV & Hırdavat Grubu</h3>
-                    <p>Mutfak ve mobilyalarınız için şık tasarımlı kapı-çekmece kulpları, Evatrav aksesuarları ve yüksek kaliteli bağlantı hırdavatları.</p>
+                    <h3>Mobilya Aksesuarları & Hırdavat</h3>
+                    <p>Mutfak ve mobilyalarınız için şık tasarımlı kapı-çekmece kulpları, ray/menteşe sistemleri ve yüksek kaliteli teknik hırdavat ürünleri.</p>
                 </div>
             </div>
 
@@ -463,6 +516,49 @@
                 </div>
             </div>
 
+        </div>
+    </section>
+
+    <!-- Bayiliklerimiz / Çözüm Ortakları -->
+    <section class="brands-section" id="bayilikler">
+        <div class="brands-container">
+            <div class="section-header" style="margin-bottom: 40px;">
+                <h2>Bayiliklerimiz & Çözüm Ortaklarımız</h2>
+                <p>Güvenilir kalitesiyle sektöre yön veren dünya ve Türkiye markalarının yetkili bayisi ve distribütörüyüz.</p>
+            </div>
+            
+            <div class="brands-grid">
+                <div class="brand-pill">ÇAMSAN ORDU</div>
+                <div class="brand-pill">TEKA</div>
+                <div class="brand-pill">BLUM</div>
+                <div class="brand-pill">SAMET</div>
+                <div class="brand-pill">CEBİ</div>
+                <div class="brand-pill">ROMA</div>
+                <div class="brand-pill">GİZİR</div>
+                <div class="brand-pill">TECE</div>
+                <div class="brand-pill">STARAX</div>
+                <div class="brand-pill">SOFUOĞLU</div>
+                <div class="brand-pill">TEVERPAN</div>
+                <div class="brand-pill">KALE KİLİT</div>
+                <div class="brand-pill">E.C.A.</div>
+                <div class="brand-pill">MEPA</div>
+                <div class="brand-pill">MESAN</div>
+                <div class="brand-pill">SARAÇ TEKNİK</div>
+                <div class="brand-pill">TOMURCUK PORSELEN</div>
+                <div class="brand-pill">TEMPO AKSESUAR</div>
+                <div class="brand-pill">SANOVİT</div>
+                <div class="brand-pill">PİMADOR</div>
+                <div class="brand-pill">METALİ</div>
+                <div class="brand-pill">MAD WOLF</div>
+                <div class="brand-pill">KADOMA</div>
+                <div class="brand-pill">HİSAR</div>
+                <div class="brand-pill">EROĞLU</div>
+                <div class="brand-pill">DKR DEKOR BANYO</div>
+                <div class="brand-pill">ÇAĞ ORMAN ÜRÜNLERİ</div>
+                <div class="brand-pill">BURAK CASTERS</div>
+                <div class="brand-pill">BAPAS</div>
+                <div class="brand-pill">AYTUĞ</div>
+            </div>
         </div>
     </section>
 
@@ -484,6 +580,12 @@
 
     <!-- Şubelerimiz & İletişim -->
     <section class="branches-section" id="subeler">
+        
+        <!-- İletişim Üstü Logo -->
+        <div class="footer-logo-box">
+            <img src="logo.svg" alt="Harputoğlu Logo" onerror="this.src='https://harputoglu.com/wp-content/uploads/2021/04/harputoglu-logo.png'">
+        </div>
+
         <div class="section-header">
             <h2>İletişim & Şubelerimiz</h2>
         </div>
